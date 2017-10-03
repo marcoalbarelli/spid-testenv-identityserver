@@ -13,11 +13,17 @@ L'ambiente si compone di due elementi:
 Installazione docker su qualsiasi sistema
 ```
 
-### Installazione e utilizzo
+### Installazione e utilizzo utilizzando Docker Hub
 
 ```
 docker pull italia/spid-testenv-identityserver
 docker run -d --name spid-testenv-identityserver -p 9443:9443 italia/spid-testenv-identityserver
+```
+
+### Installazione e utilizzo senza Docker Hub
+```
+docker build -t="spid-testenv/identityserver" .
+docker run -d -p 9443:9443 --name spid-testenv-identityserver spid-testenv/identityserver
 ```
 
 ## Installazione senza Docker

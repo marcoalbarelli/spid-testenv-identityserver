@@ -14,17 +14,20 @@ RUN apt-get install -y software-properties-common python-software-properties && 
 
 ENV JAVA_HOME="/usr/lib/jvm/java-8-oracle"
 
-# untar wso2-is in /opt/wso2-is
-#RUN mkdir /otp/spid-testenv && \
-#    curl -o /opt/spid-testenv/spid-testenv-identityserver.tar.gz https://codeload.github.com/italia/spid-testenv-identityserver/tar.gz/0.9-beta.1 && \
-#    mkdir /opt/spid-testenv/identityserver && \
-#    tar -zxvf /opt/spid-testenv/spid-testenv-identityserver.tar.gz -C /opt/spid-testenv/identityserver --strip-components=1 && \
-#    rm -f /opt/spid-testenv/spid-testenv-identityserver.tar.gz && \
-#    chmod +x /opt/spid-testenv/identity-server/identity-server/bin/wso2server.sh
+# Identity Server
+RUN apt-get install curl && \
+    mkdir /opt/spid-testenv && \
+    curl -o /opt/spid-testenv/spid-testenv-identityserver.tar.gz https://codeload.github.com/italia/spid-testenv-identityserver/tar.gz/0.9-beta.1 && \
+    mkdir /opt/spid-testenv/identityserver && \
+    tar -zxvf /opt/spid-testenv/spid-testenv-identityserver.tar.gz -C /opt/spid-testenv/identityserver --strip-components=1 && \
+    rm -f /opt/spid-testenv/spid-testenv-identityserver.tar.gz && \
+    chmod +x /opt/spid-testenv/identityserver/identity-server/bin/wso2server.sh && \
+    mv /opt/spid-testenv/identityserver/spid-conf/conf/* /opt/spid-testenv/identityserver/identity-server/repository/conf/ 
+    #./opt/spid-testenv/identityserver/identity-server/bin/wso2server.sh
     
 # Port exposed
 EXPOSE 9443
 
-WORKDIR /opt/spid-testenv/identity-server
+WORKDIR /opt/spid-testenv/identityserver
 
-#ENTRYPOINT ["identity-server/bin/wso2server.sh"]
+ENTRYPOINT ["identity-server/bin/wso2server.sh"]
