@@ -3,6 +3,9 @@ MAINTAINER Umberto Rosini, rosini@agid.gov.it
 
 RUN apt-get update
 
+# Create user to run wso2 and the backoffice (not root for security reason!)
+RUN useradd --user-group --shell /bin/false yoda
+
 # Oracle Java 8
 RUN apt-get install -y software-properties-common python-software-properties && \
     add-apt-repository ppa:webupd8team/java && \
@@ -16,20 +19,24 @@ ENV JAVA_HOME="/usr/lib/jvm/java-8-oracle"
 
 # Identity Server
 RUN apt-get install curl && \
-    mkdir /opt/spid-testenv && \
-    curl -o /opt/spid-testenv/spid-testenv-identityserver.tar.gz https://codeload.github.com/italia/spid-testenv-identityserver/tar.gz/v0.9-beta.1 && \
-    mkdir /opt/spid-testenv/identityserver && \
-    tar -zxvf /opt/spid-testenv/spid-testenv-identityserver.tar.gz -C /opt/spid-testenv/identityserver --strip-components=1 && \
-    rm -f /opt/spid-testenv/spid-testenv-identityserver.tar.gz && \
-    chmod +x /opt/spid-testenv/identityserver/identity-server/bin/wso2server.sh
+    mkdir /spid-testenv && \
+    curl -o /spid-testenv/spid-testenv-identityserver.tar.gz https://codeload.github.com/italia/spid-testenv-identityserver/tar.gz/v0.9-beta.1 && \
+    mkdir /spid-testenv/is && \
+    tar -zxvf /spid-testenv/spid-testenv-identityserver.tar.gz -C /spid-testenv/is --strip-components=1 && \
+    rm -f /spid-testenv/spid-testenv-identityserver.tar.gz && \
+    chmod +x /spid-testenv/is/identity-server/bin/wso2server.sh
 
 # Set custom conf
-RUN mv /opt/spid-testenv/identityserver/spid-conf/conf/* /opt/spid-testenv/identityserver/identity-server/repository/conf/ 
-    #./opt/spid-testenv/identityserver/identity-server/bin/wso2server.sh
+RUN mv /spid-testenv/is/spid-conf/conf/* /spid-testenv/is/identity-server/repository/conf/ 
+    #./spid-testenv/is/identity-server/bin/wso2server.sh
     
 # Port exposed
 EXPOSE 9443
 
-WORKDIR /opt/spid-testenv/identityserver
+RUN chown -R yoda:yoda /spid-testenv/*
+
+USER yoda
+
+WORKDIR /spid-testenv/is
 
 ENTRYPOINT ["identity-server/bin/wso2server.sh"]
