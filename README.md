@@ -26,6 +26,13 @@ docker build -t="spid-testenv-identityserver" .
 docker run -d -p 9443:9443 --name spid-testenv-identityserver spid-testenv-identityserver
 ```
 
+### Installazione tramite Docker compose
+
+```
+docker-compose up
+```
+
+
 ## Installazione senza Docker
 
 ### Prerequisiti
@@ -50,5 +57,5 @@ per ambienti windows utilizzare il .bat
 ## Disponibilità del servizio
 
 L'avvio può richiedere anche qualche minuto.
-L'interfaccia di amministrazione dell'identity server sarà disponibile in https://localhost:9443/ (utente: admin, password: admin) 
+L'interfaccia di amministrazione dell'identity server sarà disponibile in https://localhost:9443/carbon (utente: admin, password: admin) 
 ma **non è necessario** aprirla poiché le attività di configurazione saranno disponibili su https://localhost:8080 (backoffice ad accesso libero) [(repository github)](https://github.com/italia/spid-testenv-backoffice)

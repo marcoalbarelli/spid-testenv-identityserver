@@ -1,7 +1,12 @@
 
 version: '2'
 services:
-	spid-testenv-identityserver:
-    build: ./env-file-test
+  spid-testenv-identityserver:
+    build: 
+      context: .
     environment:
       ENTITY_ID: https://localhost
+    ports:
+      - "9443:9443"
+    entrypoint: bash -c "/spid-testenv/is/identity-server/bin/wso2server.sh"
+
