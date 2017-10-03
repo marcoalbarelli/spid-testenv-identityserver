@@ -1,11 +1,7 @@
 
-version: '1'
+version: '2'
 services:
 	spid-testenv-identityserver:
-		build: .
-	environment:
-    	ENTITY_ID: https://localhost
-	ports:
-		- "9443:9443"
-	#volumes:
-	#- /..
+    build: ./env-file-test
+    environment:
+      ENTITY_ID: https://localhost

@@ -22,8 +22,8 @@ docker run -d --name spid-testenv-identityserver -p 9443:9443 italia/spid-testen
 
 ### Installazione e utilizzo senza Docker Hub
 ```
-docker build -t="spid-testenv/identityserver" .
-docker run -d -p 9443:9443 --name spid-testenv-identityserver spid-testenv/identityserver
+docker build -t="spid-testenv-identityserver" .
+docker run -d -p 9443:9443 --name spid-testenv-identityserver spid-testenv-identityserver
 ```
 
 ## Installazione senza Docker
