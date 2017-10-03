@@ -30,13 +30,3 @@ RUN apt-get install curl && \
 RUN mv /spid-testenv/is/spid-conf/conf/* /spid-testenv/is/identity-server/repository/conf/ 
     #./spid-testenv/is/identity-server/bin/wso2server.sh
     
-# Port exposed
-EXPOSE 9443
-
-RUN chown -R yoda:yoda /spid-testenv/*
-
-USER yoda
-
-WORKDIR /spid-testenv/is
-
-ENTRYPOINT ["identity-server/bin/wso2server.sh"]
