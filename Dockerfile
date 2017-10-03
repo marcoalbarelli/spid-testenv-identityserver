@@ -28,5 +28,18 @@ RUN apt-get install curl && \
 
 # Set custom conf
 RUN mv /spid-testenv/is/spid-conf/conf/* /spid-testenv/is/identity-server/repository/conf/ 
-    #./spid-testenv/is/identity-server/bin/wso2server.sh
     
+# Port exposed
+EXPOSE 9443
+
+RUN chown -R yoda:yoda /spid-testenv/*
+
+USER yoda
+
+# Start & Stop to bootstrap the Identity Server
+RUN /spid-testenv/is/identity-server/bin/wso2server.sh start > /dev/null &
+RUN /spid-testenv/is/identity-server/bin/wso2server.sh stop > /dev/null &
+
+WORKDIR /spid-testenv/is
+
+ENTRYPOINT ["identity-server/bin/wso2server.sh"]
